@@ -9,7 +9,7 @@ npm link
 Then generate your new project:
 
 ```bash
-yo docker-jhipster
+yo jhipster-docker-compose
 ```
 
 ## License
