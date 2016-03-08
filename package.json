@@ -1,5 +1,5 @@
 {
-  "name": "generator-docker-jhipster",
+  "name": "generator-jhipster-docker-compose",
   "version": "0.0.0",
   "description": "Generate Docker to run JHipster apps",
   "homepage": "",
