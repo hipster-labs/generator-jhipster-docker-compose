@@ -1,0 +1,28 @@
+version: '2'
+services:
+    jhipster-registry:
+        extends:
+            file: app1-mysql/src/main/docker/registry.yml
+            service: jhipster-registry
+        volumes:
+            - ./central-server-config:/central-config
+    <% for(var i=0; i<apps.length; i++) {%>
+    <%= apps[i] %>:
+        extends:
+            file: <%= apps[i] %>/src/main/docker/app.dev.yml
+            service: <%= apps[i] %>-dev-app
+        depends_on:
+            - jhipster-registry
+    <% } %>
+    elk-elasticsearch:
+        extends:
+            file: elk.yml
+            service: elk-elasticsearch
+    elk-logstash:
+        extends:
+          file: elk.yml
+          service: elk-logstash
+    elk-kibana:
+        extends:
+            file: elk.yml
+            service: elk-kibana

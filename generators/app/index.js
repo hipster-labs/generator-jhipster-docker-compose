@@ -19,6 +19,7 @@ module.exports = yeoman.generators.Base.extend({
             }, this);
         }
     },
+
     prompting: function () {
         var done = this.async();
 
@@ -35,7 +36,8 @@ module.exports = yeoman.generators.Base.extend({
         }];
 
         this.prompt(prompts, function (props) {
-            this.props = props;
+            this.apps = props.chosenApps;
+            this.log(this.apps);
             // To access props later use this.props.someOption;
 
             done();
@@ -43,13 +45,6 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     writing: function () {
-        this.fs.copy(
-          this.templatePath('dummyfile.txt'),
-          this.destinationPath('dummyfile.txt')
-        );
-    },
-
-    install: function () {
-        this.installDependencies();
+        this.template('_docker-compose.yml', 'docker-compose.yml');
     }
 });
