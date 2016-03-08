@@ -1,0 +1,26 @@
+{
+  "name": "generator-docker-jhipster",
+  "version": "0.0.0",
+  "description": "Generate Docker to run JHipster apps",
+  "homepage": "",
+  "author": {
+    "name": "William Marques",
+    "email": "wmarques@ippon.fr",
+    "url": ""
+  },
+  "files": [
+    "generators"
+  ],
+  "main": "generators/index.js",
+  "keywords": [
+    "jhipster",
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "chalk": "1.0.0",
+    "shelljs": "0.6.0",
+    "yeoman-generator": "0.21.1",
+    "yosay": "1.0.2"
+  },
+  "license": "Apache-2.0"
+}
