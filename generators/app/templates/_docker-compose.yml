@@ -2,7 +2,7 @@ version: '2'
 services:
     jhipster-registry:
         extends:
-            file: app1-mysql/src/main/docker/registry.yml
+            file: registry.yml
             service: jhipster-registry
         volumes:
             - ./central-server-config:/central-config
