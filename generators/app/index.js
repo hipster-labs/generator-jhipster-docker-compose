@@ -4,7 +4,6 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var shelljs = require('shelljs');
 
-
 module.exports = yeoman.generators.Base.extend({
     initializing: {
         findJhipsterApps: function () {
@@ -20,28 +19,45 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
 
-    prompting: function () {
-        var done = this.async();
+    prompting: {
+        askForApps: function () {
+            var done = this.async();
 
-        // Have Yeoman greet the user.
-        this.log(yosay(
-            'Welcome to the first-rate ' + chalk.red('generator-docker-jhipster') + ' generator!'
-        ));
+            // Have Yeoman greet the user.
+            this.log(yosay(
+                'Welcome to the first-rate ' + chalk.red('generator-docker-jhipster') + ' generator!'
+            ));
 
-        var prompts = [{
-            type: 'checkbox',
-            name: 'chosenApps',
-            message: 'Which app do you want in your DockerFile ?',
-            choices: this.apps
-        }];
+            var prompts = [{
+                type: 'checkbox',
+                name: 'chosenApps',
+                message: 'Which applications do you want in your DockerFile ?',
+                choices: this.apps
+            }];
 
-        this.prompt(prompts, function (props) {
-            this.apps = props.chosenApps;
-            this.log(this.apps);
-            // To access props later use this.props.someOption;
+            this.prompt(prompts, function (props) {
+                this.apps = props.chosenApps;
 
-            done();
-        }.bind(this));
+                done();
+            }.bind(this));
+        },
+
+        askForElk: function () {
+            var done = this.async();
+
+            var prompts = [{
+                type: 'confirm',
+                name: 'elk',
+                message: 'Do you want ELK to monitor your applications ?',
+                default: true
+            }];
+
+            this.prompt(prompts, function (props) {
+                this.useElk = props.elk;
+
+                done();
+            }.bind(this));
+        }
     },
 
     writing: function () {

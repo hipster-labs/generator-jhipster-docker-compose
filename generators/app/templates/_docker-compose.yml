@@ -12,8 +12,8 @@ services:
             file: <%= apps[i] %>/src/main/docker/app.dev.yml
             service: <%= apps[i] %>-dev-app
         depends_on:
-            - jhipster-registry
-    <% } %>
+            - jhipster-registry<% } %>
+    <% if (useElk) {%>
     elk-elasticsearch:
         extends:
             file: elk.yml
@@ -25,4 +25,4 @@ services:
     elk-kibana:
         extends:
             file: elk.yml
-            service: elk-kibana
+            service: elk-kibana<% } %>
