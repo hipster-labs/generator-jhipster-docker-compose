@@ -63,6 +63,6 @@ module.exports = yeoman.generators.Base.extend({
     writing: function () {
         this.template('_docker-compose.yml', 'docker-compose.yml');
         this.copy('elk.yml', 'elk.yml');
-        this.fs.copy('registry.yml', 'registry.yml');
+        this.copy('registry.yml', 'registry.yml');
     }
 });
