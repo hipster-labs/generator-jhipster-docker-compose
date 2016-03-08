@@ -60,9 +60,22 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
 
-    writing: function () {
-        this.template('_docker-compose.yml', 'docker-compose.yml');
-        this.copy('elk.yml', 'elk.yml');
-        this.copy('registry.yml', 'registry.yml');
+    writing: {
+        writeDockerCompose: function () {
+            this.template('_docker-compose.yml', 'docker-compose.yml');
+        },
+
+        writeRegistryFiles: function () {
+            this.copy('registry.yml', 'registry.yml');
+            this.copy('central-server-config/application.yml', 'central-server-config/application.yml');
+        },
+
+        writeElkFiles: function () {
+            if(!this.useElk) return;
+            
+            this.copy('elk.yml', 'elk.yml');
+            this.copy('log-monitoring/log-config/logstash.conf', 'log-monitoring/log-config/logstash.conf');
+            this.copy('log-monitoring/log-data/.gitignore', 'log-monitoring/log-data/.gitignore');
+        }
     }
 });
