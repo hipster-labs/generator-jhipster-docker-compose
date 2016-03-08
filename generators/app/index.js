@@ -32,7 +32,12 @@ module.exports = yeoman.generators.Base.extend({
                 type: 'checkbox',
                 name: 'chosenApps',
                 message: 'Which applications do you want in your DockerFile ?',
-                choices: this.apps
+                choices: this.apps,
+                validate: function (input) {
+                    if(input.length === 0) {
+                        return "Please choose at least one application";
+                    } else return true;
+                }
             }];
 
             this.prompt(prompts, function (props) {
@@ -72,7 +77,7 @@ module.exports = yeoman.generators.Base.extend({
 
         writeElkFiles: function () {
             if(!this.useElk) return;
-            
+
             this.copy('elk.yml', 'elk.yml');
             this.copy('log-monitoring/log-config/logstash.conf', 'log-monitoring/log-config/logstash.conf');
             this.copy('log-monitoring/log-data/.gitignore', 'log-monitoring/log-data/.gitignore');
