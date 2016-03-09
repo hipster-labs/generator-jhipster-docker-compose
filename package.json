@@ -6,7 +6,11 @@
   "author": {
     "name": "William Marques",
     "email": "wmarques@ippon.fr",
-    "url": ""
+    "url": "https://github.com/wmarques"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hipster-labs/generator-jhipster-docker-compose.git"
   },
   "files": [
     "generators"
