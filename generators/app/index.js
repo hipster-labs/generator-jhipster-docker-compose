@@ -39,7 +39,21 @@ module.exports = yeoman.generators.Base.extend({
             }.bind(this));
         },
 
+        loadConfig: function() {
+
+            this.appsFolders = this.config.get('appsFolders');
+            this.appConfigs = this.config.get('appConfigs');
+            this.useElk = this.config.get('useElk');
+            this.profile = this.config.get('profile');
+
+            if(this.appsFolders !== undefined) {
+                this.regenerate = true;
+            }
+        },
+
         findJhipsterApps: function() {
+            if(this.regenerate) return;
+
             var files = shelljs.ls('-l',this.destinationRoot());
             this.appsFolders = [];
             files.forEach(function(file) {
@@ -52,7 +66,7 @@ module.exports = yeoman.generators.Base.extend({
         },
 
         getAppConfig: function() {
-            if(this.abort) return;
+            if(this.abort || this.regenerate) return;
 
             this.appConfigs = [];
 
@@ -81,7 +95,7 @@ module.exports = yeoman.generators.Base.extend({
 
     prompting: {
         askForApps: function() {
-            if(this.abort) return;
+            if(this.abort || this.regenerate) return;
             var done = this.async();
 
             var prompts = [{
@@ -104,7 +118,7 @@ module.exports = yeoman.generators.Base.extend({
         },
 
         askForElk: function() {
-            if(this.abort) return;
+            if(this.abort || this.regenerate) return;
             var done = this.async();
 
             var prompts = [{
@@ -122,7 +136,7 @@ module.exports = yeoman.generators.Base.extend({
         },
 
         askForProfile: function() {
-            if(this.abort) return;
+            if(this.abort || this.regenerate) return;
             var done = this.async();
 
             var choices = ['dev', 'prod'];
@@ -159,6 +173,13 @@ module.exports = yeoman.generators.Base.extend({
             }
 
             if(!this.abort) this.log(chalk.green('Found Docker images, writing files...\n'));
+        },
+        saveConfig: function() {
+            if(this.abort) return;
+            this.config.set('appsFolders', this.appsFolders);
+            this.config.set('appConfigs', this.appConfigs);
+            this.config.set('useElk', this.useElk);
+            this.config.set('profile', this.profile);
         }
     },
 
