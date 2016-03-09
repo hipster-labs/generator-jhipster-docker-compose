@@ -9,8 +9,8 @@ services:
     <% for(var i=0; i<appConfigs.length; i++) {%>
     <%= appConfigs[i].baseName.toLowerCase() %>:
         extends:
-            file: <%= appConfigs[i].baseName.toLowerCase() %>/src/main/docker/app.dev.yml
-            service: <%= appConfigs[i].baseName.toLowerCase() %>-dev-app
+            file: <%= appConfigs[i].baseName.toLowerCase() %>/src/main/docker/app.<%= profile %>.yml
+            service: <%= appConfigs[i].baseName.toLowerCase() %>-<% if(profile=='dev') {%><%= profile %>-<%}%>app
         depends_on:
             - jhipster-registry<% } %>
     <% if (useElk) {%>

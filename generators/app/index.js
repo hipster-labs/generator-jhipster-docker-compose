@@ -80,6 +80,27 @@ module.exports = yeoman.generators.Base.extend({
 
                 done();
             }.bind(this));
+        },
+
+        askForProfile: function() {
+            if(this.abort) return;
+            var done = this.async();
+
+            var choices = ['dev', 'prod'];
+
+            var prompts = [{
+                type: 'list',
+                name: 'profile',
+                message: 'Which profile do you want to use ?',
+                choices: choices,
+                default: 0
+            }];
+
+            this.prompt(prompts, function(props) {
+                this.profile = props.profile;
+
+                done();
+            }.bind(this));
         }
     },
 
