@@ -17,6 +17,28 @@ module.exports = yeoman.generators.Base.extend({
             this.log(chalk.white('Files will be generated in folder: ' + chalk.yellow(this.destinationRoot())));
         },
 
+        checkDocker: function() {
+            var done = this.async();
+
+            shelljs.exec('docker -v', {silent:true},function(code, stdout, stderr) {
+                if (stderr) {
+                    this.log(chalk.yellow.bold('WARNING!') + ' docker is not found on your computer.\n');
+                }
+                done();
+            }.bind(this));
+        },
+
+        checkDockerCompose: function() {
+            var done = this.async();
+
+            shelljs.exec('docker-compose -v', {silent:true}, function(code, stdout, stderr) {
+                if (stderr) {
+                    this.log(chalk.yellow.bold('WARNING!') + ' docker-compose is not found on your computer.\n');
+                }
+                done();
+            }.bind(this));
+        },
+
         findJhipsterApps: function() {
             var files = shelljs.ls('-l',this.destinationRoot());
             this.appsFolders = [];
