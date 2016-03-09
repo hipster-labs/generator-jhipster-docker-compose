@@ -19,8 +19,7 @@
   "dependencies": {
     "chalk": "1.0.0",
     "shelljs": "0.6.0",
-    "yeoman-generator": "0.21.1",
-    "yosay": "1.0.2"
+    "yeoman-generator": "0.21.1"
   },
   "license": "Apache-2.0"
 }

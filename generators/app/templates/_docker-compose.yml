@@ -6,11 +6,11 @@ services:
             service: jhipster-registry
         volumes:
             - ./central-server-config:/central-config
-    <% for(var i=0; i<apps.length; i++) {%>
-    <%= apps[i] %>:
+    <% for(var i=0; i<appConfigs.length; i++) {%>
+    <%= appConfigs[i].baseName.toLowerCase() %>:
         extends:
-            file: <%= apps[i] %>/src/main/docker/app.dev.yml
-            service: <%= apps[i] %>-dev-app
+            file: <%= appConfigs[i].baseName.toLowerCase() %>/src/main/docker/app.dev.yml
+            service: <%= appConfigs[i].baseName.toLowerCase() %>-dev-app
         depends_on:
             - jhipster-registry<% } %>
     <% if (useElk) {%>
