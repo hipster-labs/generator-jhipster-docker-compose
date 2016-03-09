@@ -27,11 +27,28 @@ module.exports = yeoman.generators.Base.extend({
                     }
                 }
             }, this);
+        },
+
+        getAppConfig: function() {
+            if(this.abort) return;
+
+            this.appConfigs = [];
+
+            for(var i = 0; i < this.appsFolders.length; i++) {
+                var fileData = this.fs.readJSON(this.destinationPath(this.appsFolders[i]+'/.yo-rc.json'));
+                var config = fileData['generator-jhipster'];
+                if(config.applicationType !== 'monolith') {
+                    this.appConfigs.push(config);
+                } else {
+                    this.appsFolders.splice(i,1);
+                    i--;
+                }
+            }
 
             if(this.appsFolders.length === 0) {
                 this.abort = true;
-                this.log(chalk.red('\nNo applications found in ' + this.destinationRoot()));
-                this.log(chalk.red('\nMake sure you run the generator in a directory containing JHipster generated applications'));
+                this.log(chalk.red('\nNo microservice or gateway found in ' + this.destinationRoot()));
+                this.log(chalk.red('\nMake sure you run the generator in a directory containing JHipster generated microservice or gateway'));
                 return;
             } else {
                 this.abort = false;
@@ -105,16 +122,6 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     configuring: {
-        getAppConfig: function() {
-            if(this.abort) return;
-
-            this.appConfigs = [];
-            for(var i = 0; i < this.appsFolders.length; i++) {
-                var fileData = this.fs.readJSON(this.destinationPath(this.appsFolders[i]+'/.yo-rc.json'));
-                this.appConfigs.push(fileData['generator-jhipster']);
-            }
-        },
-
         checkImages: function() {
             if(this.abort) return;
 
