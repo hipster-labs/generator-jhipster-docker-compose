@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var shelljs = require('shelljs');
+var crypto = require('crypto');
 
 module.exports = yeoman.generators.Base.extend({
     initializing: {
@@ -45,6 +46,7 @@ module.exports = yeoman.generators.Base.extend({
             this.appConfigs = this.config.get('appConfigs');
             this.useElk = this.config.get('useElk');
             this.profile = this.config.get('profile');
+            this.jwtSecretKey = this.config.get('jwtSecretKey');
 
             if(this.appsFolders !== undefined) {
                 this.regenerate = true;
@@ -174,12 +176,20 @@ module.exports = yeoman.generators.Base.extend({
 
             if(!this.abort) this.log(chalk.green('Found Docker images, writing files...\n'));
         },
+
+        generateJwtSecret: function() {
+            if(this.jwtSecretKey === undefined) {
+                this.jwtSecretKey = crypto.randomBytes(20).toString('hex');
+            }
+        },
+
         saveConfig: function() {
             if(this.abort) return;
             this.config.set('appsFolders', this.appsFolders);
             this.config.set('appConfigs', this.appConfigs);
             this.config.set('useElk', this.useElk);
             this.config.set('profile', this.profile);
+            this.config.set('jwtSecretKey', this.jwtSecretKey);
         }
     },
 
@@ -194,7 +204,7 @@ module.exports = yeoman.generators.Base.extend({
             if(this.abort) return;
 
             this.copy('registry.yml', 'registry.yml');
-            this.copy('central-server-config/application.yml', 'central-server-config/application.yml');
+            this.template('central-server-config/_application.yml', 'central-server-config/application.yml');
         },
 
         writeElkFiles: function() {
