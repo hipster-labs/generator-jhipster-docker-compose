@@ -23,7 +23,8 @@ module.exports = yeoman.generators.Base.extend({
 
             shelljs.exec('docker -v', {silent:true},function(code, stdout, stderr) {
                 if (stderr) {
-                    this.log(chalk.yellow.bold('WARNING!') + ' docker is not found on your computer.\n');
+                    this.log(chalk.yellow.bold('WARNING!') + ' docker is not found on your computer.\n' +
+                        '         Read http://docs.docker.com/engine/installation/#installation\n');
                 }
                 done();
             }.bind(this));
@@ -34,7 +35,8 @@ module.exports = yeoman.generators.Base.extend({
 
             shelljs.exec('docker-compose -v', {silent:true}, function(code, stdout, stderr) {
                 if (stderr) {
-                    this.log(chalk.yellow.bold('WARNING!') + ' docker-compose is not found on your computer.\n');
+                    this.log(chalk.yellow.bold('WARNING!') + ' docker-compose is not found on your computer.\n' +
+                        '         Read https://docs.docker.com/compose/install/\n');
                 }
                 done();
             }.bind(this));
@@ -214,5 +216,9 @@ module.exports = yeoman.generators.Base.extend({
             this.copy('log-monitoring/log-config/logstash.conf', 'log-monitoring/log-config/logstash.conf');
             this.copy('log-monitoring/log-data/.gitignore', 'log-monitoring/log-data/.gitignore');
         }
+    },
+    end: function() {
+        this.log('\n' + chalk.bold.green('##### USAGE #####'));
+        this.log('Launch all your applications by running : ' + chalk.cyan('docker-compose up -d\n'));
     }
 });
