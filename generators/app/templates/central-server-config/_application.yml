@@ -6,7 +6,12 @@ jhipster:
         authentication:
             jwt:
                 secret: <%= jwtSecretKey %>
+    <% if (useElk) {%>
     logging:
-        logstash:
+        logstash: # forward logs to ELK
             enabled: true
             host: elk-logstash
+    metrics:
+        logs: # report metrics in the logs
+            enabled: true
+            reportFrequency: 60 # in seconds<% } %>
