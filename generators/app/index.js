@@ -44,13 +44,13 @@ module.exports = yeoman.generators.Base.extend({
 
         loadConfig: function() {
 
-            this.appsFolders = this.config.get('appsFolders');
+            this.defaultAppsFolders = this.config.get('appsFolders');
             this.appConfigs = this.config.get('appConfigs');
             this.useElk = this.config.get('useElk');
             this.profile = this.config.get('profile');
             this.jwtSecretKey = this.config.get('jwtSecretKey');
 
-            if(this.appsFolders !== undefined) {
+            if(this.defaultAppsFolders !== undefined) {
                 this.regenerate = true;
             }
         }
@@ -119,7 +119,7 @@ module.exports = yeoman.generators.Base.extend({
         },
 
         askForApps: function() {
-            if(this.abort || this.regenerate) return;
+            if(this.abort) return;
             var done = this.async();
 
             var prompts = [{
@@ -127,6 +127,7 @@ module.exports = yeoman.generators.Base.extend({
                 name: 'chosenApps',
                 message: 'Which applications do you want in your DockerFile ?',
                 choices: this.appsFolders,
+                default: this.defaultAppsFolders,
                 validate: function (input) {
                     if(input.length === 0) {
                         return 'Please choose at least one application';
