@@ -52,6 +52,7 @@ module.exports = yeoman.generators.Base.extend({
 
             if(this.defaultAppsFolders !== undefined) {
                 this.regenerate = true;
+                this.log('\nFound .yo-rc.json config file...');
             }
         }
     },
