@@ -16,7 +16,7 @@ Clone this project, then run
 npm link
 ```
 
-Then go into a directory containing JHipster generated microservices and/or gateway and run:
+Then go into a directory and run:
 
 ```bash
 yo jhipster-docker-compose
