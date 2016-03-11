@@ -26,7 +26,3 @@ Finally, you can launch all the applications by doing
 ```bash
 docker-compose up
 ```
-
-## License
-
-Apache-2.0 © [Hipster Labs](https://github.com/hipster-labs)
