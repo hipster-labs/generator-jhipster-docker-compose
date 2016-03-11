@@ -53,51 +53,71 @@ module.exports = yeoman.generators.Base.extend({
             if(this.appsFolders !== undefined) {
                 this.regenerate = true;
             }
-        },
-
-        findJhipsterApps: function() {
-            if(this.regenerate) return;
-
-            var files = shelljs.ls('-l',this.destinationRoot());
-            this.appsFolders = [];
-            files.forEach(function(file) {
-                if(file.isDirectory()) {
-                    if(shelljs.test('-f', file.name + '/.yo-rc.json')) {
-                        this.appsFolders.push(file.name.match(/([^\/]*)\/*$/)[1]);
-                    }
-                }
-            }, this);
-        },
-
-        getAppConfig: function() {
-            if(this.abort || this.regenerate) return;
-
-            this.appConfigs = [];
-
-            for(var i = 0; i < this.appsFolders.length; i++) {
-                var fileData = this.fs.readJSON(this.destinationPath(this.appsFolders[i]+'/.yo-rc.json'));
-                var config = fileData['generator-jhipster'];
-                if(config.applicationType !== 'monolith') {
-                    this.appConfigs.push(config);
-                } else {
-                    this.appsFolders.splice(i,1);
-                    i--;
-                }
-            }
-
-            if(this.appsFolders.length === 0) {
-                this.abort = true;
-                this.log(chalk.red('\nNo microservice or gateway found in ' + this.destinationRoot()));
-                this.log(chalk.red('\nMake sure you run the generator in a directory containing JHipster generated microservice or gateway'));
-                return;
-            } else {
-                this.abort = false;
-                this.log(chalk.green(this.appsFolders.length + ' applications found at ' + this.destinationRoot() + '\n'));
-            }
         }
     },
 
     prompting: {
+        askForPath: function() {
+            var done = this.async();
+
+            var prompts = [{
+                type: 'input',
+                name: 'directoryPath',
+                message: 'Where are the applications located ?',
+                default: '../',
+                validate: function (input) {
+                    var path = this.destinationPath(input);
+                    if(shelljs.test('-d', path)) {
+                        var files = shelljs.ls('-l',this.destinationPath(input));
+                        this.appsFolders = [];
+
+                        files.forEach(function(file) {
+                            if(file.isDirectory()) {
+                                if(shelljs.test('-f', file.name + '/.yo-rc.json')) {
+                                    var fileData = this.fs.readJSON(file.name + '/.yo-rc.json');
+                                    if(fileData['generator-jhipster'] !== undefined) {
+                                        this.appsFolders.push(file.name.match(/([^\/]*)\/*$/)[1]);
+                                    }
+                                }
+                            }
+                        }, this);
+
+                        if(this.appsFolders.length === 0) {
+                            return 'No microservice or gateway found in ' + this.destinationPath(input);
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        return path + ' is not a directory or doesn\'t exist';
+                    }
+
+                }.bind(this)
+            }];
+
+            this.prompt(prompts, function (props) {
+                this.directoryPath = props.directoryPath;
+
+                this.appConfigs = [];
+
+                //Loading configs and removing monolithic apps from appsFolders
+                for(var i = 0; i < this.appsFolders.length; i++) {
+                    var path = this.destinationPath(this.directoryPath + this.appsFolders[i]+'/.yo-rc.json');
+                    var fileData = this.fs.readJSON(path);
+                    var config = fileData['generator-jhipster'];
+                    if(config.applicationType !== 'monolith') {
+                        this.appConfigs.push(config);
+                    } else {
+                        this.appsFolders.splice(i,1);
+                        i--;
+                    }
+                }
+
+                this.log(chalk.green(this.appsFolders.length + ' applications found at ' + this.destinationPath(this.directoryPath) + '\n'));
+
+                done();
+            }.bind(this));
+        },
+
         askForApps: function() {
             if(this.abort || this.regenerate) return;
             var done = this.async();
@@ -168,7 +188,7 @@ module.exports = yeoman.generators.Base.extend({
             this.log('\nChecking Docker images in applications directories...');
 
             for (var i = 0; i < this.appsFolders.length; i++) {
-                var imagePath = this.destinationPath(this.appsFolders[i] + '/target/docker/'+this.appConfigs[i].baseName.toLowerCase()+'-0.0.1-SNAPSHOT.war');
+                var imagePath = this.destinationPath(this.directoryPath + this.appsFolders[i] + '/target/docker/'+this.appConfigs[i].baseName.toLowerCase()+'-0.0.1-SNAPSHOT.war');
                 if (!shelljs.test('-f', imagePath)) {
                     this.log(chalk.red('\nDocker Image not found at ' + imagePath));
                     this.log(chalk.red('Please run "mvn package docker:build" in ' + this.destinationPath(this.appsFolders[i]) + ' to generate Docker image'));
@@ -182,6 +202,14 @@ module.exports = yeoman.generators.Base.extend({
         generateJwtSecret: function() {
             if(this.jwtSecretKey === undefined) {
                 this.jwtSecretKey = crypto.randomBytes(20).toString('hex');
+            }
+        },
+
+        setAppsFolderPaths: function() {
+            this.appsFolderPaths = [];
+            for (var i = 0; i < this.appsFolders.length; i++) {
+                var path = this.destinationPath(this.directoryPath + this.appsFolders[i]);
+                this.appsFolderPaths.push(path);
             }
         },
 
@@ -218,6 +246,8 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
     end: function() {
+        if(this.abort) return;
+
         this.log('\n' + chalk.bold.green('##### USAGE #####'));
         this.log('Launch all your applications by running : ' + chalk.cyan('docker-compose up -d\n'));
     }
