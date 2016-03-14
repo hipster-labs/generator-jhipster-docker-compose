@@ -5,13 +5,11 @@ services:
             file: registry.yml
             service: jhipster-registry
         volumes:
-            - ./central-server-config:/central-config
-    <% for(var i=0; i<appConfigs.length; i++) {%>
+            - ./central-server-config:/central-config<% for(var i=0; i<appConfigs.length; i++) {%>
     <%= appConfigs[i].baseName.toLowerCase() %>:
         extends:
             file: <%= appsFolderPaths[i] %>/src/main/docker/app.<%= profile %>.yml
-            service: <%= appConfigs[i].baseName.toLowerCase() %>-<% if(profile=='dev') {%><%= profile %>-<%}%>app
-    <% if(profile=='prod') {%>
+            service: <%= appConfigs[i].baseName.toLowerCase() %>-<% if(profile=='dev') {%><%= profile %>-<%}%>app<% if(profile=='prod') {%>
     <%= appConfigs[i].baseName.toLowerCase() %>-mysql:
         extends:
             file: <%= appsFolderPaths[i] %>/src/main/docker/db.prod.yml

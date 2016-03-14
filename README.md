@@ -16,7 +16,7 @@ Clone this project, then run
 npm link
 ```
 
-Then go into a directory and run:
+Then go into a directory (we advice to create a directory alongside the applications directories) and run:
 
 ```bash
 yo jhipster-docker-compose
@@ -26,3 +26,6 @@ Finally, you can launch all the applications by doing
 ```bash
 docker-compose up
 ```
+
+## TO DO
+Support databases other than MySQL in production profile.
