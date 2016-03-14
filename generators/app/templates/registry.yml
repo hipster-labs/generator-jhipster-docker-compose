@@ -3,9 +3,5 @@ services:
     jhipster-registry:
         container_name: jhipster-registry
         image: jhipster/jhipster-registry
-        environment:
-            - "SPRING_PROFILES=dev,native"
         ports:
             - "8761:8761"
-        volumes:
-            - ./central-server-config:/central-config

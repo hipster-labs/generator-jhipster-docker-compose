@@ -11,8 +11,6 @@ services:
         extends:
             file: <%= appsFolderPaths[i] %>/src/main/docker/app.<%= profile %>.yml
             service: <%= appConfigs[i].baseName.toLowerCase() %>-<% if(profile=='dev') {%><%= profile %>-<%}%>app
-        depends_on:
-            - jhipster-registry
     <% if(profile=='prod') {%>
     <%= appConfigs[i].baseName.toLowerCase() %>-mysql:
         extends:
