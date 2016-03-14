@@ -28,4 +28,4 @@ docker-compose up
 ```
 
 ## TO DO
-Support databases other than MySQL in production profile.
+- Support databases other than MySQL in production profile.
