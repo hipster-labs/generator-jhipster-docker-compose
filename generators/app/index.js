@@ -184,7 +184,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     configuring: {
-        checkImages: function() {
+        /*checkImages: function() {
             if(this.abort) return;
 
             this.log('\nChecking Docker images in applications directories...');
@@ -199,7 +199,7 @@ module.exports = yeoman.generators.Base.extend({
             }
 
             if(!this.abort) this.log(chalk.green('Found Docker images, writing files...\n'));
-        },
+        },*/
 
         generateJwtSecret: function() {
             if(this.jwtSecretKey === undefined) {
