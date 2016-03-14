@@ -27,7 +27,7 @@ services:
         extends:
           file: elk.yml
           service: elk-logstash
-    elk-kibana:
+    jhipster-console:
         extends:
             file: elk.yml
-            service: elk-kibana<% } %>
+            service: jhipster-console<% } %>
