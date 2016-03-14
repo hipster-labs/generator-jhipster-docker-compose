@@ -190,7 +190,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     configuring: {
-        /*checkImages: function() {
+        checkImages: function() {
             if(this.abort) return;
 
             this.log('\nChecking Docker images in applications directories...');
@@ -199,13 +199,13 @@ module.exports = yeoman.generators.Base.extend({
                 var imagePath = this.destinationPath(this.directoryPath + this.appsFolders[i] + '/target/docker/'+this.appConfigs[i].baseName.toLowerCase()+'-0.0.1-SNAPSHOT.war');
                 if (!shelljs.test('-f', imagePath)) {
                     this.log(chalk.red('\nDocker Image not found at ' + imagePath));
-                    this.log(chalk.red('Please run "mvn package docker:build" in ' + this.destinationPath(this.appsFolders[i]) + ' to generate Docker image'));
+                    this.log(chalk.red('Please run "mvn package docker:build" in ' + this.destinationPath(this.directoryPath + this.appsFolders[i]) + ' to generate Docker image'));
                     this.abort = true;
                 }
             }
 
             if(!this.abort) this.log(chalk.green('Found Docker images, writing files...\n'));
-        },*/
+        },
 
         generateJwtSecret: function() {
             if(this.jwtSecretKey === undefined) {
