@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var shelljs = require('shelljs');
 var crypto = require('crypto');
+var _ = require('lodash');
 
 module.exports = yeoman.generators.Base.extend({
     initializing: {
@@ -196,7 +197,7 @@ module.exports = yeoman.generators.Base.extend({
             this.log('\nChecking Docker images in applications directories...');
 
             for (var i = 0; i < this.appsFolders.length; i++) {
-                var imagePath = this.destinationPath(this.directoryPath + this.appsFolders[i] + '/target/docker/'+this.appConfigs[i].baseName.toLowerCase()+'-0.0.1-SNAPSHOT.war');
+                var imagePath = this.destinationPath(this.directoryPath + this.appsFolders[i] + '/target/docker/' + _.kebabCase(this.appConfigs[i].baseName) + '-0.0.1-SNAPSHOT.war');
                 if (!shelljs.test('-f', imagePath)) {
                     this.log(chalk.red('\nDocker Image not found at ' + imagePath));
                     this.log(chalk.red('Please run "mvn package docker:build" in ' + this.destinationPath(this.directoryPath + this.appsFolders[i]) + ' to generate Docker image'));
