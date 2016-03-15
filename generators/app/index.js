@@ -99,12 +99,12 @@ module.exports = yeoman.generators.Base.extend({
             this.prompt(prompts, function (props) {
                 this.directoryPath = props.directoryPath;
 
-                //Removing monolithic apps from appsFolders
+                //Removing monolithic apps and registry from appsFolders
                 for(var i = 0; i < this.appsFolders.length; i++) {
                     var path = this.destinationPath(this.directoryPath + this.appsFolders[i]+'/.yo-rc.json');
                     var fileData = this.fs.readJSON(path);
                     var config = fileData['generator-jhipster'];
-                    if(config.applicationType === 'monolith') {
+                    if(config.applicationType === 'monolith' || this.appsFolders[i]==='jhipster-registry' || this.appsFolders[i] === 'registry') {
                         this.appsFolders.splice(i,1);
                         i--;
                     }
