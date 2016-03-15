@@ -5,7 +5,8 @@ services:
             file: registry.yml
             service: jhipster-registry
         volumes:
-            - ./central-server-config:/central-config<% for(var i=0; i<appConfigs.length; i++) {%>
+            - ./central-server-config:/central-config
+<%_ for(var i=0; i<appConfigs.length; i++) { _%>
     <%= appConfigs[i].baseName.toLowerCase() %>:
         extends:
             file: <%= appsFolderPaths[i] %>/src/main/docker/app.<%= profile %>.yml
@@ -13,8 +14,9 @@ services:
     <%= appConfigs[i].baseName.toLowerCase() %>-mysql:
         extends:
             file: <%= appsFolderPaths[i] %>/src/main/docker/db.prod.yml
-            service: <%= appConfigs[i].baseName.toLowerCase() %>-mysql<% }} %>
-    <% if (useElk) {%>
+            service: <%= appConfigs[i].baseName.toLowerCase() %>-mysql
+<%_ }} _%>
+<%_ if (useElk) { _%>
     elk-elasticsearch:
         extends:
             file: elk.yml
@@ -26,4 +28,5 @@ services:
     jhipster-console:
         extends:
             file: elk.yml
-            service: jhipster-console<% } %>
+            service: jhipster-console
+<%_ } _%>
