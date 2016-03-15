@@ -258,6 +258,7 @@ module.exports = yeoman.generators.Base.extend({
         if(this.abort) return;
 
         this.log('\n' + chalk.bold.green('##### USAGE #####'));
-        this.log('Launch all your applications by running : ' + chalk.cyan('docker-compose up -d\n'));
+        this.log('First launch the JHipster Registry by running : ' + chalk.cyan('docker-compose up -d jhipster-registry'));
+        this.log('Wait a minute, then launch all your applications by running : ' + chalk.cyan('docker-compose up -d'));
     }
 });

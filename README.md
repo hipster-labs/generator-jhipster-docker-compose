@@ -22,9 +22,14 @@ Then go into a directory (we advice to create a directory alongside the applicat
 yo jhipster-docker-compose
 ```
 
-Finally, you can launch all the applications by doing
+Launch the registry first by running:
 ```bash
-docker-compose up
+docker-compose up -d jhipster-registry
+```
+
+Wait a minute and finally, you can launch all the applications by doing
+```bash
+docker-compose up -d
 ```
 
 ## TO DO
