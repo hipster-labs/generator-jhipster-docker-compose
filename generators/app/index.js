@@ -151,14 +151,14 @@ module.exports = yeoman.generators.Base.extend({
         },
 
         askForElk: function() {
-            if(this.abort || this.regenerate) return;
+            if(this.abort) return;
             var done = this.async();
 
             var prompts = [{
                 type: 'confirm',
                 name: 'elk',
                 message: 'Do you want ELK to monitor your applications ?',
-                default: true
+                default: this.useElk && true
             }];
 
             this.prompt(prompts, function(props) {
@@ -169,7 +169,7 @@ module.exports = yeoman.generators.Base.extend({
         },
 
         askForProfile: function() {
-            if(this.abort || this.regenerate) return;
+            if(this.abort) return;
             var done = this.async();
 
             var choices = ['dev', 'prod'];
@@ -179,7 +179,7 @@ module.exports = yeoman.generators.Base.extend({
                 name: 'profile',
                 message: 'Which profile do you want to use ?',
                 choices: choices,
-                default: 0
+                default: this.profile || 'dev'
             }];
 
             this.prompt(prompts, function(props) {
