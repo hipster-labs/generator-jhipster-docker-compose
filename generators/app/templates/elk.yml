@@ -15,7 +15,7 @@ services:
         ports:
             - "5000:5000/udp"
     jhipster-console:
-        image: pbesson/jhipster-console
+        image: jhipster/jhipster-console
         ports:
             - "5601:5601"
         environment:
