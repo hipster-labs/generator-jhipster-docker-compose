@@ -14,6 +14,7 @@ services:
             - GIT_SEARCH_PATH=central-config
         <%_ } _%>
 <%_ for(var i=0; i<appConfigs.length; i++) { _%>
+
     <%= appConfigs[i].baseName.toLowerCase() %>:
         extends:
             file: <%= appsFolderPaths[i] %>/src/main/docker/app.<%= profile %>.yml
@@ -25,6 +26,7 @@ services:
             service: <%= appConfigs[i].baseName.toLowerCase() %>-<%= appConfigs[i].prodDatabaseType %>
 <%_ }} _%>
 <%_ if (useElk) { _%>
+
     elk-elasticsearch:
         extends:
             file: elk.yml
