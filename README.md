@@ -31,6 +31,3 @@ Wait a minute and finally, you can launch all the applications by doing
 ```bash
 docker-compose up -d
 ```
-
-## TO DO
-- Support databases other than MySQL in production profile.
